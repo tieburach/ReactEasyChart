@@ -223,11 +223,11 @@
   </component>
   <component name="RunManager" selected="Attach to Node.js/Chrome.Unnamed">
     <configuration name="Unnamed" type="ChromiumRemoteDebugType" factoryName="Chromium Remote" port="9229">
-      <method>
+      <method v="2">
         <option name="LaunchBrowser.Before.Run" />
       </method>
     </configuration>
-    <configuration name="build" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
@@ -235,8 +235,9 @@
       </scripts>
       <node-interpreter value="project" />
       <envs />
+      <method v="2" />
     </configuration>
-    <configuration name="start" type="js.build_tools.npm" factoryName="npm" temporary="true" nameIsGenerated="true">
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
@@ -244,11 +245,12 @@
       </scripts>
       <node-interpreter value="project" />
       <envs />
+      <method v="2" />
     </configuration>
     <list>
       <item itemvalue="Attach to Node.js/Chrome.Unnamed" />
-      <item itemvalue="npm.start" />
       <item itemvalue="npm.build" />
+      <item itemvalue="npm.start" />
     </list>
     <recent_temporary>
       <list>
