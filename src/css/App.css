@@ -1,21 +1,26 @@
+html, body { height: 100%; width: 100%; margin: 0; }
+div { height: 100%; width: 100%;}
+
+:root{
+    --first-color:#004D40 ;
+    --second-color:#26A69A ;
+    --third-color: #E0F2F1;
+}
+
+
 .App {
     text-align: center;
 }
 
 .App-logo {
-    animation: App-logo-spin infinite 10s linear;
-    height: 5vmin;
+    height: 100%;
 }
 
 .App-header {
-    background-color: #282c34;
-    min-height: 5vh;
-    display: flex;
-    flex-direction: column;
+    float: top;
+    background-color: var(--first-color);
+    height: 15%;
     align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: red;
 }
 
 
