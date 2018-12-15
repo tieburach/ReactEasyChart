@@ -31,8 +31,10 @@ div { height: 100%; width: 100%;}
 }
 
 .Main-div {
+    float: right;
     text-align: center;
-    width: auto;
+    width: 80%;
+
 }
 
 @keyframes App-logo-spin {
