@@ -2,7 +2,9 @@ body {
     font-size: 1rem;
 }
 
-
+#red{
+ background-color: red;
+}
 :root{
     --first-color:#004D40 ;
     --second-color:#26A69A ;

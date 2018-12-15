@@ -1,24 +1,40 @@
 import React, {Component} from 'react';
 import './css/App.css';
 import Chart from './components/Chart';
-import CSVManager from "./CSVManager";
-import Menu from "./menu/Menu";
+import CSVManager from "./components/CSVManager";
+import Menu from "./components/Menu";
 import logo from "./resources/logo.PNG"
+
+class Przycisk extends React.Component {
+    constructor(props) {
+        super(props);
+        this.onPClicked = props.onPClicked;
+    }
+
+    onPrzyciskClicked(e) {
+        console.log("Wcisnalem." + this);
+        this.onPClicked(e);
+    }
+
+    render() {
+        return (
+            <button onClick={e => this.onPrzyciskClicked(e)}>Wciśnij mnie</button>
+        );
+    }
+}
 
 class App extends Component {
     constructor() {
-        super();
-        this.state = {
-            chartData: {}
-        }
+        super()
+        this.state = this.getChartData();
     }
 
-    componentWillMount() {
+    componentWillMount(){
         this.getChartData();
+
     }
 
     getChartData() {
-        // Ajax calls here s
         this.setState({
             chartData: {
                 labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford'],
@@ -48,6 +64,37 @@ class App extends Component {
         });
     }
 
+    onClick = () => {
+        this.setState({
+            chartData: {
+                labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford'],
+                datasets: [
+                    {
+                        label: 'Population',
+                        data: [
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200
+                        ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.6)',
+                            'rgba(54, 162, 235, 0.6)',
+                            'rgba(255, 206, 86, 0.6)',
+                            'rgba(75, 192, 192, 0.6)',
+                            'rgba(153, 102, 255, 0.6)',
+                            'rgba(255, 159, 64, 0.6)',
+                            'rgba(255, 99, 132, 0.6)'
+                        ]
+                    }
+                ]
+            }
+        });
+    }
+
+
     render() {
         return (
             <div className={"App"}>
@@ -56,9 +103,10 @@ class App extends Component {
                 </header>
                 <div className={"App-menu"}>
                     <Menu/>
+                    <Przycisk onPClicked={(e) => this.onClick(e)} />
                 </div>
-                <div className="Main-div">
-                    <Chart chartData={this.state.chartData} location="Massachusetts" legendPosition="bottom"/>
+                <div className="Main-div" >
+                    <Chart chartData={this.state.chartData}  legendPosition="bottom"/>
                 </div>
                 <CSVManager/>
             </div>

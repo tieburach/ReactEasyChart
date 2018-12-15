@@ -1,9 +1,32 @@
 import React, {Component} from "react";
 import '../css/bootstrap.min.css';
-import './Menu.css';
+import '../css/Menu.css';
 
-class Menu extends Component{
+class MyComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.addActiveClass = this.addActiveClass.bind(this);
+        this.state = {
+            active: true,
+        };
+    }
 
+    addActiveClass() {
+        this.setState({
+            isActive: true
+        })
+    }
+
+    render() {
+        return (
+                <a className={this.state.active ? 'red' : null}
+                        onClick={this.addActiveClass}>{this.props.text}</a>
+
+        )
+    }
+}
+
+class Menu extends Component {
     render() {
         return (
             <div className="container-fluid">
@@ -15,29 +38,29 @@ class Menu extends Component{
                                     <span>Dane</span>
                                 </h4>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Załaduj</a>
+                                    <MyComponent className="nav-link" text={"Załaduj"}/>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Zapisz</a>
+                                    <MyComponent className="nav-link" text={"Zapisz"}/>
                                 </li>
 
                                 <h4 className="align-items-center mt-2">
                                     <span>Typ wykresu</span>
                                 </h4>
                                 <li className="nav-item">
-                                    <a className="nav-link active" href="#">Liniowy</a>
+                                    <MyComponent className="nav-link" text={"Liniowy"}/>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Kołowy</a>
+                                    <MyComponent className="nav-link" text={"Kołowy"}/>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Punktowy</a>
+                                    <MyComponent className="nav-link" text={"Punktowy"}/>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Słupkowy poziomy</a>
+                                    <MyComponent className="nav-link" text={"Słupkowy poziomy"}/>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Słupkowy pionowy</a>
+                                    <MyComponent className="nav-link" text={"Słupkowy pionowy"}/>
                                 </li>
 
                             </ul>
