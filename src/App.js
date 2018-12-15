@@ -18,7 +18,7 @@ class App extends Component {
     }
 
     getChartData() {
-        // Ajax calls here
+        // Ajax calls here s
         this.setState({
             chartData: {
                 labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford'],
