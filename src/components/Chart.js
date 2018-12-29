@@ -10,9 +10,8 @@ class Chart extends Component {
 
     seriesAmount = 3;
 
-    onClick = () => {
-        console.log(Data.dataCategories);
-        console.log(Data.dataSeries);
+    onClickLine = () => {
+        console.log("test");
         for (var i = 0; i < this.seriesAmount; i++) {
             this.refs.highCharts.chart.series[i].update({type: "line"})
         }
@@ -27,15 +26,14 @@ class Chart extends Component {
     onClickChangeData = () =>  {
         Data.changeDataCategories(["Gowno", "Jakies", "Pears", "Grapes", "Bananas"]);
         Data.changeDataSeries(Data.dataSeries2);
-        this.refs.highCharts.chart.xAxis[0].setCategories(Data.dataCategories);
-
-
+        this.Chart.refs.highCharts.chart.xAxis[0].setCategories(Data.dataCategories);
         for (var i = 0; i < this.seriesAmount; i++){
             this.refs.highCharts.chart.series[i].setData(Data.dataSeries[i].data);
             this.refs.highCharts.chart.series[i].setName(Data.dataSeries[i].name);
         }
-
     };
+
+
 
     render() {
         const options = {
@@ -57,9 +55,6 @@ class Chart extends Component {
                     highcharts={Highcharts}
                     options={options}
                 />
-                <button onClick={this.onClick}>Line</button>
-                <button onClick={this.onClickBar}>Bar</button>
-                <button onClick={this.onClickChangeData}>Zmien dane</button>
             </div>
         );
     }

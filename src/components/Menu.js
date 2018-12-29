@@ -1,30 +1,7 @@
 import React, {Component} from "react";
 import '../css/bootstrap.min.css';
 import '../css/Menu.css';
-
-class MyComponent extends Component {
-    constructor(props) {
-        super(props);
-        this.addActiveClass = this.addActiveClass.bind(this);
-        this.state = {
-            active: true,
-        };
-    }
-
-    addActiveClass() {
-        this.setState({
-            isActive: true
-        })
-    }
-
-    render() {
-        return (
-                <a className={this.state.active ? 'red' : null}
-                        onClick={this.addActiveClass}>{this.props.text}</a>
-
-        )
-    }
-}
+import Data from "../Data";
 
 class Menu extends Component {
     render() {
@@ -38,29 +15,29 @@ class Menu extends Component {
                                     <span>Dane</span>
                                 </h4>
                                 <li className="nav-item">
-                                    <MyComponent className="nav-link" text={"Załaduj"}/>
+                                    <button className="btn-block btn-success p-1 m-2" onClick={this.onClickChangeData}>Załaduj</button>
                                 </li>
                                 <li className="nav-item">
-                                    <MyComponent className="nav-link" text={"Zapisz"}/>
+                                    <button className="btn-block btn-success p-1 m-2">Zapisz</button>
                                 </li>
 
                                 <h4 className="align-items-center mt-2">
                                     <span>Typ wykresu</span>
                                 </h4>
                                 <li className="nav-item">
-                                    <MyComponent className="nav-link" text={"Liniowy"}/>
+                                    <button className="btn-block btn-success p-1 m-2" onClick={this.onClickLine}>Liniowy</button>
                                 </li>
                                 <li className="nav-item">
-                                    <MyComponent className="nav-link" text={"Kołowy"}/>
+                                    <button className="btn-block btn-success p-1 m-2">Kołowy</button>
                                 </li>
                                 <li className="nav-item">
-                                    <MyComponent className="nav-link" text={"Punktowy"}/>
+                                    <button className="btn-block btn-success p-1 m-2">Punktowy</button>
                                 </li>
                                 <li className="nav-item">
-                                    <MyComponent className="nav-link" text={"Słupkowy poziomy"}/>
+                                    <button className="btn-block btn-success p-1 m-2">Słupkowy poziomy</button>
                                 </li>
                                 <li className="nav-item">
-                                    <MyComponent className="nav-link" text={"Słupkowy pionowy"}/>
+                                    <button className="btn-block btn-success p-1 m-2" onClick={this.onClickBar}>Słupkowy pionowy</button>
                                 </li>
 
                             </ul>
