@@ -6,33 +6,34 @@ import Data from "./../Data";
 class Chart extends Component {
     constructor(props) {
         super(props);
+        this.chart = React.createRef();
     }
+
 
     seriesAmount = 3;
 
     onClickLine = () => {
         console.log("test");
         for (var i = 0; i < this.seriesAmount; i++) {
-            this.refs.highCharts.chart.series[i].update({type: "line"})
+            this.chart.series[i].update({type: "line"})
         }
     };
 
     onClickBar = () => {
         for (var i = 0; i < this.seriesAmount; i++) {
-            this.refs.highCharts.chart.series[i].update({type: "bar"})
+            this.chart.series[i].update({type: "bar"})
         }
     };
 
     onClickChangeData = () =>  {
         Data.changeDataCategories(["Gowno", "Jakies", "Pears", "Grapes", "Bananas"]);
         Data.changeDataSeries(Data.dataSeries2);
-        this.Chart.refs.highCharts.chart.xAxis[0].setCategories(Data.dataCategories);
+        this.refs.highCharts.chart.xAxis[0].setCategories(Data.dataCategories);
         for (var i = 0; i < this.seriesAmount; i++){
             this.refs.highCharts.chart.series[i].setData(Data.dataSeries[i].data);
             this.refs.highCharts.chart.series[i].setName(Data.dataSeries[i].name);
         }
     };
-
 
 
     render() {
@@ -51,7 +52,7 @@ class Chart extends Component {
         return (
             <div>
                 <HighchartsReact
-                    ref="highCharts"
+                    ref={this.chart}
                     highcharts={Highcharts}
                     options={options}
                 />

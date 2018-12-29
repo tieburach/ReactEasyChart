@@ -1,9 +1,14 @@
 import React, {Component} from "react";
 import '../css/bootstrap.min.css';
 import '../css/Menu.css';
-import Data from "../Data";
+import Chart from "./Chart";
 
 class Menu extends Component {
+    constructor(props) {
+        super(props);
+        this.chart = new Chart();
+    }
+
     render() {
         return (
             <div className="container-fluid">
@@ -15,7 +20,7 @@ class Menu extends Component {
                                     <span>Dane</span>
                                 </h4>
                                 <li className="nav-item">
-                                    <button className="btn-block btn-success p-1 m-2" onClick={this.onClickChangeData}>Załaduj</button>
+                                    <button className="btn-block btn-success p-1 m-2" onClick={this.chart.onClickChangeData}>Załaduj</button>
                                 </li>
                                 <li className="nav-item">
                                     <button className="btn-block btn-success p-1 m-2">Zapisz</button>
@@ -25,7 +30,7 @@ class Menu extends Component {
                                     <span>Typ wykresu</span>
                                 </h4>
                                 <li className="nav-item">
-                                    <button className="btn-block btn-success p-1 m-2" onClick={this.onClickLine}>Liniowy</button>
+                                    <button className="btn-block btn-success p-1 m-2" onClick={this.chart.onClickLine}>Liniowy</button>
                                 </li>
                                 <li className="nav-item">
                                     <button className="btn-block btn-success p-1 m-2">Kołowy</button>
@@ -37,14 +42,14 @@ class Menu extends Component {
                                     <button className="btn-block btn-success p-1 m-2">Słupkowy poziomy</button>
                                 </li>
                                 <li className="nav-item">
-                                    <button className="btn-block btn-success p-1 m-2" onClick={this.onClickBar}>Słupkowy pionowy</button>
+                                    <button className="btn-block btn-success p-1 m-2" onClick={this.chart.onClickBar}>Słupkowy pionowy</button>
                                 </li>
-
                             </ul>
                         </div>
                     </nav>
                 </div>
             </div>
+
         );
     }
 }
