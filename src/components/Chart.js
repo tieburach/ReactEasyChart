@@ -1,42 +1,37 @@
 import React, {Component} from 'react';
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
+import Data from "./../Data";
 
+class Chart extends Component {
+    constructor(props) {
+        super(props);
+    }
 
-class Chart extends Component{
-  constructor(props){
-    super(props);
-  }
+    seriesAmount = 3;
 
     onClick = () => {
-        console.log(this.refs.highCharts);
-        if (this.refs.highCharts) {
-            this.refs.highCharts.chart.series[0].update({
-                type: "line"
-            });
-            this.refs.highCharts.chart.series[1].update({
-                type: "line"
-            });
-            this.refs.highCharts.chart.series[2].update({
-                type: "line"
-            });
-        } else {
-            console.log("not working");
+        console.log(Data.dataCategories);
+        console.log(Data.dataSeries);
+        for (var i = 0; i < this.seriesAmount; i++) {
+            this.refs.highCharts.chart.series[i].update({type: "line"})
         }
     };
 
     onClickBar = () => {
-        this.refs.highCharts.chart.series[0].update({
-            type: "bar"
-        });
-        this.refs.highCharts.chart.series[1].update({
-            type: "bar"
-        });
-        this.refs.highCharts.chart.series[2].update({
-            type: "bar"
-        });
+        for (var i = 0; i < this.seriesAmount; i++) {
+            this.refs.highCharts.chart.series[i].update({type: "bar"})
+        }
     };
 
+    onClickChangeData = () =>  {
+        Data.changeDataCategories(["Gowno", "Jakies", "Pears", "Grapes", "Bananas"]);
+        Data.changeDataSeries(Data.dataSeries2);
+        this.refs.highCharts.chart.xAxis[0].setCategories(Data.dataCategories);
+        console.log(Data.dataSeries)
+        this.refs.highCharts.chart.redraw();
+
+    };
 
     render() {
         const options = {
@@ -44,28 +39,12 @@ class Chart extends Component{
                 text: "Test"
             },
             xAxis: {
-                categories: ["Apples", "Oranges", "Pears", "Grapes", "Bananas"]
+                categories: Data.dataCategories
             },
             credits: {
                 enabled: false
             },
-            series: [
-                {
-                    name: "John",
-                    data: [5, 3, 4, 7, 2],
-                    type: "column"
-                },
-                {
-                    name: "Jane",
-                    data: [2, -2, -3, 2, 1],
-                    type: "column"
-                },
-                {
-                    name: "Joe",
-                    data: [3, 4, 4, -2, 5],
-                    type: "column"
-                }
-            ]
+            series: Data.dataSeries
         };
         return (
             <div>
@@ -76,8 +55,10 @@ class Chart extends Component{
                 />
                 <button onClick={this.onClick}>Line</button>
                 <button onClick={this.onClickBar}>Bar</button>
+                <button onClick={this.onClickChangeData}>Zmien dane</button>
             </div>
         );
     }
 }
+
 export default Chart;
