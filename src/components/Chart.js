@@ -28,8 +28,12 @@ class Chart extends Component {
         Data.changeDataCategories(["Gowno", "Jakies", "Pears", "Grapes", "Bananas"]);
         Data.changeDataSeries(Data.dataSeries2);
         this.refs.highCharts.chart.xAxis[0].setCategories(Data.dataCategories);
-        console.log(Data.dataSeries)
-        this.refs.highCharts.chart.redraw();
+
+
+        for (var i = 0; i < this.seriesAmount; i++){
+            this.refs.highCharts.chart.series[i].setData(Data.dataSeries[i].data);
+            this.refs.highCharts.chart.series[i].setName(Data.dataSeries[i].name);
+        }
 
     };
 

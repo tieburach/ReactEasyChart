@@ -34,17 +34,17 @@ class Data {
 
     static dataSeries2 = [
         {
-            name: "John",
+            name: "Jacek",
             data: [2, 1, 3, 7],
             type: "column"
         },
         {
-            name: "Jane",
+            name: "Agata",
             data: [2, -2, -3,2],
             type: "column"
         },
         {
-            name: "Joe",
+            name: "Krzys",
             data: [9, 11, 6, 9],
             type: "column"
         }
