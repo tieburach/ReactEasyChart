@@ -1,10 +1,4 @@
-import React from 'react';
-
-class Data {
-    constructor(props){
-    }
-
-
+export default class Data {
     static changeDataSeries(dataSeries){
         this.dataSeries = dataSeries;
     }
@@ -53,4 +47,3 @@ class Data {
     static dataCategories = ["Apples", "Oranges", "Pears", "Grapes", "Bananas"];
 
 }
-export default Data;

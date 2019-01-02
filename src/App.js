@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import './css/App.css';
 import './css/bootstrap.min.css'
-import Chart from './components/Chart';
+
 import logo from "./resources/logo.PNG"
+import Chart from "./components/Chart";
 
 class App extends Component {
     constructor() {
