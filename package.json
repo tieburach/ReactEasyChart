@@ -4,8 +4,10 @@
   "private": true,
   "dependencies": {
     "chart.js": "^2.7.3",
+    "create-react-class": "^15.6.3",
     "highcharts": "^7.0.1",
     "highcharts-react-official": "^2.0.0",
+    "install": "^0.12.2",
     "jquery": "^3.3.1",
     "node": "^11.4.0",
     "react": "^16.6.3",
@@ -14,6 +16,7 @@
     "react-csv-reader": "^1.1.0",
     "react-dom": "^16.6.3",
     "react-hamburger-menu": "^1.1.1",
+    "react-popup": "^0.9.3",
     "react-scripts": "2.1.1"
   },
   "scripts": {
