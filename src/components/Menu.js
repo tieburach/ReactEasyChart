@@ -1,12 +1,7 @@
 import React, {Component} from 'react';
 
 export default class Menu extends Component {
-
-    constructor(props){
-        super(props);
-        this.highCharts = props.highCharts;
-    }
-
+    
     render() {
         return (
             <div className="App-menu">

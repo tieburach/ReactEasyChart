@@ -6,6 +6,7 @@ import Menu from "./Menu";
 import ReactModal from 'react-modal';
 import DataPicker from './DataPicker';
 import Move from "./Move";
+import CSVManager from "./CSVManager";
 
 const seriesAmount = 3;
 
@@ -443,6 +444,10 @@ export default class Chart extends Component {
                     moveBottom={this.moveBottom}
                     moveRight={this.moveRight}
                 />
+                <CSVManager
+
+                />
+
                 {/*Koniec diva ze sticker*/}
             </div>
         );

@@ -27,9 +27,9 @@ export default class DataPicker extends React.Component {
                 rows[i] = { ...rows[i], ...updated };
             }
             this.setState(this.rows = rows);
-        let first =[];
-        let second =[];
-        let third=[];
+            let first =[];
+            let second =[];
+            let third=[];
             for (let i =0; i<this.rows.length; i++ ){
                 first[i] = parseInt("" +this.rows[i].first);
                 second[i] = parseInt("" +this.rows[i].second);
