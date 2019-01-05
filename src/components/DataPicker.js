@@ -1,38 +1,49 @@
 import React from "react";
 import ReactDataGrid from "react-data-grid";
+import Data from "../Data";
 
 const columns = [
-    { key: "id", name: "ID", editable: true },
-    { key: "title", name: "Title", editable: true },
-    { key: "complete", name: "Complete", editable: true }
+    { key: "first", name: "first", editable: true },
+    { key: "second", name: "second", editable: true },
+    { key: "third", name: "third", editable: true }
 ];
 
 const rows = [
-    { id: 0, title: "Task 1", complete: 20 },
-    { id: 1, title: "Task 2", complete: 40 },
-    { id: 2, title: "Task 3", complete: 60 }
+    { first: 0, second: 1, third: 2 },
+    { first: 1, second: 2, third: 4 },
+    { first: 2, second: 3, third: 6 }
 ];
 
 export default class DataPicker extends React.Component {
 
     constructor(props){
         super(props);
-        this.setState(
-            this.rows = rows
-        )
+        this.rows = rows;
     }
 
     onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-        this.setState(() => {
-            const rows = this.rows.slice();
+            this.rows.slice();
             for (let i = fromRow; i <= toRow; i++) {
                 rows[i] = { ...rows[i], ...updated };
             }
-            console.log(this.rows);
-            this.rows = rows;
-            return { rows };
-        });
+            this.setState(this.rows = rows);
+        let first =[];
+        let second =[];
+        let third=[];
+            for (let i =0; i<this.rows.length; i++ ){
+                first[i] = parseInt("" +this.rows[i].first);
+                second[i] = parseInt("" +this.rows[i].second);
+                third[i] = parseInt("" +this.rows[i].third)
+            }
+
+
+            Data.dataSeries[0].data = first;
+            Data.dataSeries[1].data = second;
+            Data.dataSeries[2].data = third;
+            this.props.reloadDataSeries();
+
     };
+
     render() {
         return (
             <ReactDataGrid

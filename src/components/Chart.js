@@ -96,7 +96,18 @@ export default class Chart extends Component {
         this.moveBottom = this.moveBottom.bind(this);
         this.moveLeft = this.moveLeft.bind(this);
         this.moveRight = this.moveRight.bind(this);
+        this.reloadDataSeries = this.reloadDataSeries.bind(this);
     }
+
+
+    reloadDataSeries (){
+        console.log("elo")
+        console.log(Data.dataSeries)
+        for (let i = 0; i < seriesAmount; i++) {
+            this.highCharts.current.chart.series[i].setData(Data.dataSeries[i].data);
+        }
+    }
+
 
     moveTop = () => {
         var top = this.state.marginTop;
@@ -288,14 +299,15 @@ export default class Chart extends Component {
     render() {
         return (
             <div>
-
                 {/*To modal do zmiany danych*/}
                 <ReactModal
                     isOpen={this.state.showModalAddData}
                     className="ModalData"
                     overlayClassName="Overlay">
                     <div className="DataGrid">
-                        <DataPicker/>
+                        <DataPicker
+                            reloadDataSeries={this.reloadDataSeries}
+                        />
                     </div>
                     <div>
                         <button className="btn btn-success" onClick={this.handleCloseModalAddData}>Zamknij
