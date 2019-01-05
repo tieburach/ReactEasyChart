@@ -1,16 +1,35 @@
 import React, {Component} from "react";
 import {CSVLink} from "react-csv";
 import CSVReader from 'react-csv-reader'
+import Data from "../Data";
 export default class CSVManager extends React.Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.data = [];
     };
 
-    recordHandler= (data) => {
+    onFileLoaded= (data) => {
+        let first =[];
+        let second =[];
+        let third=[];
+
         this.setState(this.data = data);
-        console.log(this.data[0]);
+        for(let i in this.data){
+            /*
+            for(let j in this.data) {
+                console.log("I" + i + "J" + j + " " + parseInt("" + this.data[i][j]));
+            }*/
+            first[i]=parseInt("" + this.data[i][0]);
+            second[i]=parseInt("" + this.data[i][1]);
+            third[i]=parseInt(""+ this.data[i][2]);
+        }
+
+        Data.dataSeries[0].data = first;
+        Data.dataSeries[1].data = second;
+        Data.dataSeries[2].data = third;
+        this.props.reloadDataSeries();
+   
     }
 
     render() {
@@ -20,7 +39,7 @@ export default class CSVManager extends React.Component {
                     id={"csvka"}
                     cssClass="csv-input"
                     label="Elo mordo"
-                    onFileLoaded={this.recordHandler}
+                    onFileLoaded={this.onFileLoaded}
                     inputStyle={{color: 'red'}}
                 />
                 <CSVLink data={this.data}

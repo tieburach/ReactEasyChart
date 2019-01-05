@@ -36,6 +36,7 @@ export default class DataPicker extends React.Component {
                 third[i] = parseInt("" +this.rows[i].third)
             }
 
+            console.log(first)
 
             Data.dataSeries[0].data = first;
             Data.dataSeries[1].data = second;

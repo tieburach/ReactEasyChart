@@ -445,7 +445,7 @@ export default class Chart extends Component {
                     moveRight={this.moveRight}
                 />
                 <CSVManager
-
+                    reloadDataSeries={this.reloadDataSeries}
                 />
 
                 {/*Koniec diva ze sticker*/}
