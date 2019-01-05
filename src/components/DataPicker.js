@@ -17,16 +17,19 @@ export default class DataPicker extends React.Component {
 
     constructor(props){
         super(props);
-        this.rows = rows;
+        this.setState(
+            this.rows = rows
+        )
     }
 
-
     onGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-        this.setState(state => {
-            const rows = state.rows.slice();
+        this.setState(() => {
+            const rows = this.rows.slice();
             for (let i = fromRow; i <= toRow; i++) {
                 rows[i] = { ...rows[i], ...updated };
             }
+            console.log(this.rows);
+            this.rows = rows;
             return { rows };
         });
     };

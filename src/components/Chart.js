@@ -13,7 +13,7 @@ const options = {
     title: {
         text: "Wykres"
     },
-    chart:{
+    chart: {
         height: 500,
         width: 700
     },
@@ -92,46 +92,46 @@ export default class Chart extends Component {
         this.handleChangeOfLegend3 = this.handleChangeOfLegend3.bind(this);
         this.handleOpenModalAddData = this.handleOpenModalAddData.bind(this);
         this.handleCloseModalAddData = this.handleCloseModalAddData.bind(this);
-        this.moveTop=this.moveTop.bind(this);
-        this.moveBottom=this.moveBottom.bind(this);
-        this.moveLeft=this.moveLeft.bind(this);
-        this.moveRight=this.moveRight.bind(this);
+        this.moveTop = this.moveTop.bind(this);
+        this.moveBottom = this.moveBottom.bind(this);
+        this.moveLeft = this.moveLeft.bind(this);
+        this.moveRight = this.moveRight.bind(this);
     }
 
     moveTop = () => {
         var top = this.state.marginTop;
-        var y = top-100;
+        var y = top - 100;
         this.setState({marginTop: y})
-        this.highCharts.current.chart.update({chart:{style:{'position': 'absolute'}}});
-        this.highCharts.current.chart.update({chart:{style:{'top': this.state.marginTop}}});
+        this.highCharts.current.chart.update({chart: {style: {'position': 'absolute'}}});
+        this.highCharts.current.chart.update({chart: {style: {'top': this.state.marginTop}}});
     }
 
 
     moveLeft = () => {
         console.log(this.state);
         var left = this.state.marginLeft;
-        var z = left-100;
+        var z = left - 100;
         this.setState({marginLeft: z})
-        this.highCharts.current.chart.update({chart:{style:{'position': 'absolute'}}});
-        this.highCharts.current.chart.update({chart:{style:{'left': this.state.marginLeft}}});
+        this.highCharts.current.chart.update({chart: {style: {'position': 'absolute'}}});
+        this.highCharts.current.chart.update({chart: {style: {'left': this.state.marginLeft}}});
     }
 
     moveBottom = () => {
         var top = this.state.marginTop;
-        var y = top+100;
+        var y = top + 100;
         this.setState({
             marginTop: y
         })
-        this.highCharts.current.chart.update({chart:{style:{'position': 'absolute'}}});
-        this.highCharts.current.chart.update({chart:{style:{'top': this.state.marginTop}}});
+        this.highCharts.current.chart.update({chart: {style: {'position': 'absolute'}}});
+        this.highCharts.current.chart.update({chart: {style: {'top': this.state.marginTop}}});
     }
 
     moveRight = () => {
         var left = this.state.marginLeft;
-        var z = left+100;
+        var z = left + 100;
         this.setState({marginLeft: z})
-        this.highCharts.current.chart.update({chart:{style:{'position': 'absolute'}}});
-        this.highCharts.current.chart.update({chart:{style:{'left': this.state.marginLeft}}});
+        this.highCharts.current.chart.update({chart: {style: {'position': 'absolute'}}});
+        this.highCharts.current.chart.update({chart: {style: {'left': this.state.marginLeft}}});
     }
 
     handleChangeOfTitle(event) {
@@ -156,19 +156,19 @@ export default class Chart extends Component {
     }
 
 
-    handleChangeOfLegend1(event){
+    handleChangeOfLegend1(event) {
         this.legend1 = event.target.value;
         this.highCharts.current.chart.series[0].update({name: this.legend1});
     }
 
 
-    handleChangeOfLegend2(event){
+    handleChangeOfLegend2(event) {
         this.legend2 = event.target.value;
         this.highCharts.current.chart.series[1].update({name: this.legend2});
     }
 
 
-    handleChangeOfLegend3(event){
+    handleChangeOfLegend3(event) {
         this.legend3 = event.target.value;
         this.highCharts.current.chart.series[2].update({name: this.legend3});
     }
@@ -242,7 +242,6 @@ export default class Chart extends Component {
     }
 
 
-
     onClickLine() {
         for (let i = 0; i < seriesAmount; i++) {
             this.highCharts.current.chart.series[i].update({type: "line"})
@@ -286,7 +285,6 @@ export default class Chart extends Component {
     };
 
 
-
     render() {
         return (
             <div>
@@ -296,7 +294,9 @@ export default class Chart extends Component {
                     isOpen={this.state.showModalAddData}
                     className="ModalData"
                     overlayClassName="Overlay">
-                    <DataPicker/>
+                    <div className="DataGrid">
+                        <DataPicker/>
+                    </div>
                     <div>
                         <button className="btn btn-success" onClick={this.handleCloseModalAddData}>Zamknij
                         </button>

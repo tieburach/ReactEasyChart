@@ -10,7 +10,7 @@ export default class Move extends Component {
     render() {
         return (
             <div>
-                <button id = "topButton" className="btn-block" onClick={this.props.moveTop}>
+                <button id = "topButton" onClick={this.props.moveTop}>
                     Top
                 </button>
                 <button className="moveButtons" onClick={this.props.moveBottom}>
