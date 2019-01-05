@@ -57,7 +57,7 @@ export default class Menu extends Component {
                                 <span>Operacje</span>
                             </h4>
                             <li className="nav-item">
-                                <button className="btn-block btn-success p-1 margins">Dodaj dane
+                                <button className="btn-block btn-success p-1 margins" onClick={this.props.handleOpenModalAddData}>Dodaj dane
                                 </button>
                             </li>
                             <li className="nav-item">
@@ -68,6 +68,17 @@ export default class Menu extends Component {
                             <li className="nav-item">
                                 <button className="btn-block btn-success p-1 margins"
                                         onClick={this.props.changeChartColors}>Zmień kolory
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button className="btn-block btn-success p-1 margins"
+                                        onClick={this.props.changeChartEtiquettes}>Zmień etykiety osi
+                                </button>
+                            </li>
+                            <li className="nav-item">
+                                <button className="btn-block btn-success p-1 margins"
+                                        onClick={this.props.changeChartLegend}
+                                        >Zmień legendę
                                 </button>
                             </li>
                         </ul>
