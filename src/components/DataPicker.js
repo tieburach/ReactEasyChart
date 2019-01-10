@@ -1,32 +1,32 @@
 import React from "react";
 import ReactDataGrid from "react-data-grid";
-
+import Data from "../Data";
 
 const rows = [
-    { 1: 0, 2: 1, 3: 2 },
-    { 1: 1, 2: 2, 3: 4 },
-    { 1: 2, 2: 3, 3: 6 }
+    {John: 0, Joe: 1, Jane: 2, New: 1},
+    {John: 0, Joe: 1, Jane: 2, New: 1},
+    {John: 0, Joe: 1, Jane: 2, New: 1}
 ];
 
 const columns = [
     {
-        key: 1,
-        name: 1,
-        editable:true
-    },
-    {
-        key: 2,
-        name: 2,
+        key: "John",
+        name: "John",
         editable: true
     },
     {
-        key: 3,
-        name: 3,
+        key: "Joe",
+        name: "Joe",
         editable: true
     },
     {
-        key: 4,
-        name: 4,
+        key: "Jane",
+        name: "Jane",
+        editable: true
+    },
+    {
+        key: "New",
+        name: "New",
         editable: true
     }
 ]
@@ -37,8 +37,8 @@ export default class DataPicker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            rows : rows,
-            columns : columns
+            rows: rows,
+            columns: columns
         };
         this.rowGetter = this.rowGetter.bind(this);
         this.handleGridRowsUpdated = this.handleGridRowsUpdated.bind(this);
@@ -50,43 +50,56 @@ export default class DataPicker extends React.Component {
         return this.state.rows[i];
     }
 
-    handleGridRowsUpdated = ({ fromRow, toRow, updated }) => {
-        this.setState(state => {
-            const rows = state.rows.slice();
-            for (let i = fromRow; i <= toRow; i++) {
-                rows[i] = { ...rows[i], ...updated };
+    handleGridRowsUpdated = ({fromRow, toRow, updated}) => {
+        this.state.rows.slice();
+        for (let i = fromRow; i <= toRow; i++) {
+            rows[i] = {...rows[i], ...updated};
+        }
+        this.setState({rows: rows});
+
+
+        const klucze = Object.keys(this.state.rows[0]);
+
+        console.log(klucze.length)
+        for (let j = 0; j < klucze.length; j++) {
+            const table = [];
+            let key = klucze[j];
+            for (let i = 0; i < this.state.rows.length; i++) {
+                const row = this.state.rows[i];
+                table.push(parseInt(row[key]));
             }
-            return { rows };
-        });
+            if (Data.dataSeries[j] != null)
+                Data.dataSeries[j].data = table;
+        }
+        this.props.reloadDataSeries();
     };
+
 
     addNewRow(ev) {
         ev.preventDefault();
         let rows = this.state.rows;
 
         rows.push({
-            id : this.state.rows.length,
-            recipient_name : '',
-            recipient_email : '',
-            subject_parameters : '',
-            body_parameters : '',
-            attachments : '',
+            id: this.state.rows.length,
+            recipient_name: '',
+            recipient_email: '',
+            subject_parameters: '',
+            body_parameters: '',
+            attachments: '',
         });
-        this.setState({ rows : rows });
+        this.setState({rows: rows});
     }
 
     addNewColumn(ev) {
-        console.log(this.state.columns);
         ev.preventDefault();
         let columns = this.state.columns;
 
         columns.push({
-            key: this.state.rows.length + 1,
-            name: this.state.rows.length + 1,
+            key: this.state.columns.length + 1,
+            name: this.state.columns.length + 1,
             editable: true
         });
-        this.setState({ columns : columns });
-        console.log(this.state.columns);
+        this.setState({columns: columns});
     }
 
 

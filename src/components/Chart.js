@@ -102,9 +102,7 @@ export default class Chart extends Component {
 
 
     reloadDataSeries (){
-        console.log("elo")
-        console.log(Data.dataSeries)
-        for (let i = 0; i < seriesAmount; i++) {
+        for (let i = 0; i < Data.dataSeries.length; i++) {
             this.highCharts.current.chart.series[i].setData(Data.dataSeries[i].data);
         }
     }
@@ -437,6 +435,7 @@ export default class Chart extends Component {
                     changeChartLegend={this.changeChartLegend}
                     changeChartEtiquettes={this.changeChartEtiquettes}
                     handleOpenModalAddData={this.handleOpenModalAddData}
+                    reloadDataSeries={this.reloadDataSeries}
                 />
                 <Move
                     moveTop={this.moveTop}
