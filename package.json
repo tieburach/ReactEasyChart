@@ -11,6 +11,7 @@
     "jquery": "^3.3.1",
     "node": "^11.4.0",
     "react": "^16.6.3",
+    "react-addons-update": "^15.6.2",
     "react-chartjs-2": "^2.7.4",
     "react-csv": "^1.0.19",
     "react-csv-reader": "^1.1.0",
@@ -19,7 +20,8 @@
     "react-hamburger-menu": "^1.1.1",
     "react-modal": "^3.8.1",
     "react-popup": "^0.9.3",
-    "react-scripts": "2.1.1"
+    "react-scripts": "2.1.1",
+    "redux-undo": "^0.6.1"
   },
   "scripts": {
     "start": "react-scripts start",

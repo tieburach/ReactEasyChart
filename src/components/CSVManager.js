@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import {CSVLink} from "react-csv";
 import CSVReader from 'react-csv-reader'
 import Data from "../Data";
@@ -29,8 +29,7 @@ export default class CSVManager extends React.Component {
         Data.dataSeries[1].data = second;
         Data.dataSeries[2].data = third;
         this.props.reloadDataSeries();
-   
-    }
+    };
 
     render() {
         return (

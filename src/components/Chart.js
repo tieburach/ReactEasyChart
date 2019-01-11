@@ -7,8 +7,7 @@ import ReactModal from 'react-modal';
 import DataPicker from './DataPicker';
 import Move from "./Move";
 import CSVManager from "./CSVManager";
-
-const seriesAmount = 3;
+require("highcharts/modules/annotations")(Highcharts);
 
 const options = {
     title: {
@@ -16,10 +15,9 @@ const options = {
     },
     chart: {
         height: 500,
-        width: 700
+        width: 1200
     },
     xAxis: {
-        categories: Data.dataCategories,
         title: {
             text: 'xAxis'
         }
@@ -35,6 +33,22 @@ const options = {
     series: Data.dataSeries
 };
 
+const newAnnotations = {
+    id: 'annotation1',
+    labels: [{
+        point: {x: 0, y: 0}, text: 'Wskaznik'
+    }]
+};
+
+
+let legend = [];
+let colors = [];
+
+for (let i = 0; i < Data.dataSeries.length; i++) {
+    legend.push(Data.dataSeries[i].name);
+    colors.push(Data.dataSeries[i].color);
+}
+
 export default class Chart extends Component {
 
     constructor(props) {
@@ -45,26 +59,23 @@ export default class Chart extends Component {
             showModalChangeColors: false,
             showModalChangeLegend: false,
             showModalChangeEtiquettes: false,
+            showModalAddPointer: false,
             showModalAddData: false,
             marginTop: 100,
-            marginLeft: 100
+            marginLeft: 100,
+            legend: legend,
+            colors: colors
         };
 
+
         this.title = 'Wykres';
-        this.serie1color = 'black';
-        this.serie2color = 'black';
-        this.serie3color = 'black';
-
-        this.legend1 = '';
-        this.legend2 = '';
-        this.legend3 = '';
-
         this.axisXEtiquette = 'Value';
         this.axisYEtiquette = 'Value';
+        this.axisXPointer = 100;
+        this.axisYPointer = 100;
+        this.pointerTitle = "Wskaznik";
         this.highCharts = React.createRef();
 
-
-        // nie znalazlem lepszej opcji do przekazywania metod do child niz to gowno tutaj
         this.onClickPie = this.onClickPie.bind(this);
         this.onClickBarHorizontal = this.onClickBarHorizontal.bind(this);
         this.onClickBarVertical = this.onClickBarVertical.bind(this);
@@ -74,9 +85,6 @@ export default class Chart extends Component {
         this.handleOpenModalChangeTitle = this.handleOpenModalChangeTitle.bind(this);
         this.handleCloseModalChangeTitle = this.handleCloseModalChangeTitle.bind(this);
         this.handleChangeOfTitle = this.handleChangeOfTitle.bind(this);
-        this.handleChangeOfColors1 = this.handleChangeOfColors1.bind(this);
-        this.handleChangeOfColors2 = this.handleChangeOfColors2.bind(this);
-        this.handleChangeOfColors3 = this.handleChangeOfColors3.bind(this);
         this.handleOpenModalChangeColors = this.handleOpenModalChangeColors.bind(this);
         this.handleCloseModalChangeColors = this.handleCloseModalChangeColors.bind(this);
         this.changeChartColors = this.changeChartColors.bind(this);
@@ -88,9 +96,6 @@ export default class Chart extends Component {
         this.changeChartEtiquettes = this.changeChartEtiquettes.bind(this);
         this.handleChangeOfAxisXEtiquette = this.handleChangeOfAxisXEtiquette.bind(this);
         this.handleChangeOfAxisYEtiquette = this.handleChangeOfAxisYEtiquette.bind(this);
-        this.handleChangeOfLegend1 = this.handleChangeOfLegend1.bind(this);
-        this.handleChangeOfLegend2 = this.handleChangeOfLegend2.bind(this);
-        this.handleChangeOfLegend3 = this.handleChangeOfLegend3.bind(this);
         this.handleOpenModalAddData = this.handleOpenModalAddData.bind(this);
         this.handleCloseModalAddData = this.handleCloseModalAddData.bind(this);
         this.moveTop = this.moveTop.bind(this);
@@ -98,131 +103,61 @@ export default class Chart extends Component {
         this.moveLeft = this.moveLeft.bind(this);
         this.moveRight = this.moveRight.bind(this);
         this.reloadDataSeries = this.reloadDataSeries.bind(this);
+        this.renderColors = this.renderColors.bind(this);
+        this.handleChangeOfColors = this.handleChangeOfColors.bind(this);
+        this.addPointer = this.addPointer.bind(this);
+        this.handleChangeOfYPointer = this.handleChangeOfYPointer.bind(this);
+        this.handleChangeOfXPointer = this.handleChangeOfXPointer.bind(this);
+        this.handleCloseModalAddPointer = this.handleCloseModalAddPointer.bind(this);
+        this.handleChangeOfPointerTitle = this.handleChangeOfPointerTitle.bind(this);
     }
 
+    reloadDataSeries() {
+        if (this.highCharts.current.chart.series.length < Data.dataSeries.length)
+            this.highCharts.current.chart.addSeries(Data.dataSeries[Data.dataSeries.length - 1]);
+        this.highCharts.current.chart.update({series: Data.dataSeries})
 
-    reloadDataSeries (){
-        for (let i = 0; i < Data.dataSeries.length; i++) {
-            this.highCharts.current.chart.series[i].setData(Data.dataSeries[i].data);
-        }
     }
-
 
     moveTop = () => {
-        var top = this.state.marginTop;
-        var y = top - 100;
-        this.setState({marginTop: y})
+        const top = this.state.marginTop;
+        const y = top - 100;
+        this.setState({marginTop: y});
         this.highCharts.current.chart.update({chart: {style: {'position': 'absolute'}}});
         this.highCharts.current.chart.update({chart: {style: {'top': this.state.marginTop}}});
-    }
+    };
 
 
     moveLeft = () => {
         console.log(this.state);
-        var left = this.state.marginLeft;
-        var z = left - 100;
-        this.setState({marginLeft: z})
+        const left = this.state.marginLeft;
+        const z = left - 100;
+        this.setState({marginLeft: z});
         this.highCharts.current.chart.update({chart: {style: {'position': 'absolute'}}});
         this.highCharts.current.chart.update({chart: {style: {'left': this.state.marginLeft}}});
-    }
+    };
 
     moveBottom = () => {
-        var top = this.state.marginTop;
-        var y = top + 100;
+        const top = this.state.marginTop;
+        const y = top + 100;
         this.setState({
             marginTop: y
-        })
+        });
         this.highCharts.current.chart.update({chart: {style: {'position': 'absolute'}}});
         this.highCharts.current.chart.update({chart: {style: {'top': this.state.marginTop}}});
-    }
+    };
 
     moveRight = () => {
-        var left = this.state.marginLeft;
-        var z = left + 100;
-        this.setState({marginLeft: z})
+        const left = this.state.marginLeft;
+        const z = left + 100;
+        this.setState({marginLeft: z});
         this.highCharts.current.chart.update({chart: {style: {'position': 'absolute'}}});
         this.highCharts.current.chart.update({chart: {style: {'left': this.state.marginLeft}}});
-    }
+    };
 
     handleChangeOfTitle(event) {
         this.title = event.target.value;
         this.highCharts.current.chart.setTitle({text: this.title});
-    }
-
-    //tu trzeba zrobic jakies dynamiczne a nie takie gowno
-    handleChangeOfColors1(event) {
-        this.serie1color = event.target.value;
-        this.highCharts.current.chart.series[0].update({color: this.serie1color});
-    }
-
-    handleChangeOfColors2(event) {
-        this.serie2color = event.target.value;
-        this.highCharts.current.chart.series[1].update({color: this.serie2color});
-    }
-
-    handleChangeOfColors3(event) {
-        this.serie3color = event.target.value;
-        this.highCharts.current.chart.series[2].update({color: this.serie3color});
-    }
-
-
-    handleChangeOfLegend1(event) {
-        this.legend1 = event.target.value;
-        this.highCharts.current.chart.series[0].update({name: this.legend1});
-    }
-
-
-    handleChangeOfLegend2(event) {
-        this.legend2 = event.target.value;
-        this.highCharts.current.chart.series[1].update({name: this.legend2});
-    }
-
-
-    handleChangeOfLegend3(event) {
-        this.legend3 = event.target.value;
-        this.highCharts.current.chart.series[2].update({name: this.legend3});
-    }
-
-    handleOpenModalChangeTitle() {
-        this.setState({showModalChangeTitle: true});
-    }
-
-    handleCloseModalChangeTitle() {
-        this.setState({showModalChangeTitle: false});
-    }
-
-    changeChartName() {
-        this.handleOpenModalChangeTitle();
-    }
-
-    changeChartColors() {
-        this.handleOpenModalChangeColors();
-    }
-
-    changeChartLegend() {
-        this.handleOpenModalChangeChartLegend();
-    }
-
-    changeChartEtiquettes() {
-        this.handleOpenModalChangeEtiquettes();
-    }
-
-    handleOpenModalChangeChartLegend() {
-        this.setState({showModalChangeLegend: true});
-    }
-
-    handleCloseModalChangeChartLegend() {
-        this.setState({showModalChangeLegend: false});
-    }
-
-
-    handleOpenModalChangeEtiquettes() {
-        this.setState({showModalChangeEtiquettes: true});
-    }
-
-
-    handleCloseModalChangeEtiquettes() {
-        this.setState({showModalChangeEtiquettes: false});
     }
 
     handleChangeOfAxisXEtiquette(event) {
@@ -235,65 +170,118 @@ export default class Chart extends Component {
         this.highCharts.current.chart.update({yAxis: {title: {text: this.axisYEtiquette}}});
     }
 
-    handleOpenModalChangeColors() {
-        this.setState({showModalChangeColors: true});
-    }
-
-    handleCloseModalChangeColors() {
-        this.setState({showModalChangeColors: false});
-    }
-
-    handleOpenModalAddData() {
-        this.setState({showModalAddData: true});
-    }
-
-    handleCloseModalAddData() {
-        this.setState({showModalAddData: false});
-    }
-
-
     onClickLine() {
-        for (let i = 0; i < seriesAmount; i++) {
-            this.highCharts.current.chart.series[i].update({type: "line"})
+        for (let i = 0; i < Data.dataSeries.length; i++) {
+            this.highCharts.current.chart.series[i].update({type: "line"});
+            Data.dataSeries[i].type = "line";
         }
     };
 
     onClickBarHorizontal() {
-        for (let i = 0; i < seriesAmount; i++) {
-            this.highCharts.current.chart.series[i].update({type: "bar"})
+        for (let i = 0; i < Data.dataSeries.length; i++) {
+            this.highCharts.current.chart.series[i].update({type: "bar"});
+            Data.dataSeries[i].type = "bar";
         }
         this.highCharts.current.chart.update({plotOptions: {series: {stacking: 'normal'}}});
     };
 
     onClickPie() {
-        for (let i = 0; i < seriesAmount; i++) {
-            this.highCharts.current.chart.series[i].update({type: "pie"})
+        for (let i = 0; i < Data.dataSeries.length; i++) {
+            this.highCharts.current.chart.series[i].update({type: "pie"});
+            Data.dataSeries[i].type = "pie";
         }
     };
 
     onClickPoint() {
-        for (let i = 0; i < seriesAmount; i++) {
-            this.highCharts.current.chart.series[i].update({type: "scatter"})
+        for (let i = 0; i < Data.dataSeries.length; i++) {
+            this.highCharts.current.chart.series[i].update({type: "scatter"});
+            Data.dataSeries[i].type = "scatter";
         }
     };
 
     onClickBarVertical() {
         this.highCharts.current.chart.update({plotOptions: {series: {stacking: undefined}}});
-        for (let i = 0; i < seriesAmount; i++) {
-            this.highCharts.current.chart.series[i].update({type: "bar"})
+        for (let i = 0; i < Data.dataSeries.length; i++) {
+            this.highCharts.current.chart.series[i].update({type: "bar"});
+            Data.dataSeries[i].type = "bar";
         }
     };
 
     onClickChangeData = () => {
-        Data.changeDataCategories(["Gowno", "Jakies", "Pears", "Grapes", "Bananas"]);
-        Data.changeDataSeries(Data.dataSeries2);
-        this.highCharts.current.chart.xAxis[0].setCategories(Data.dataCategories);
-        for (let i = 0; i < seriesAmount; i++) {
+        for (let i = 0; i < Data.dataSeries.length; i++) {
             this.highCharts.current.chart.series[i].setData(Data.dataSeries[i].data);
             this.highCharts.current.chart.series[i].setName(Data.dataSeries[i].name);
         }
     };
 
+    handleChangeOfColors = (i, event) => {
+        Data.dataSeries[i].color = event.target.value;
+        colors[i] = event.target.value;
+        this.setState({
+            colors: colors
+        });
+        this.highCharts.current.chart.series[i].update({color: event.target.value});
+    };
+
+    handleChangeOfLegend = (i, event) => {
+        Data.dataSeries[i].name = event.target.value;
+        legend[i] = event.target.value;
+        this.setState({
+            legend: legend
+        });
+        this.highCharts.current.chart.series[i].update({name: event.target.value});
+    };
+
+    renderColors = () => {
+        const tableColors = [];
+        for (let i = 0; i < Data.dataSeries.length; i++) {
+            tableColors.push(<div><input type="color" value={this.state.colors[i]}
+                                         onChange={(e) => this.handleChangeOfColors(i, e)}/><h3
+                className="modalText">{Data.dataSeries[i].name}</h3></div>);
+        }
+        return tableColors;
+    };
+
+    renderLegend = () => {
+        const tableLegend = [];
+        for (let i = 0; i < Data.dataSeries.length; i++) {
+            tableLegend.push(<label><h3 className="modalText">{i + 1} etykieta legendy:</h3><input type="text"
+                                                                                                   value={this.state.legend[i]}
+                                                                                                   onChange={(e) => this.handleChangeOfLegend(i, e)}/></label>);
+        }
+        return tableLegend;
+    };
+
+    addPointer = () => {
+        this.setState({showModalAddPointer: true});
+        this.highCharts.current.chart.addAnnotation(newAnnotations);
+    };
+
+    handleChangeOfYPointer(event) {
+        this.axisYPointer = event.target.value;
+        this.highCharts.current.chart.removeAnnotation('annotation1');
+        newAnnotations.labels[0].point.y = parseInt(this.axisYPointer);
+        this.highCharts.current.chart.addAnnotation(newAnnotations);
+
+    }
+
+    handleChangeOfXPointer(event) {
+        this.axisXPointer = event.target.value;
+        this.highCharts.current.chart.removeAnnotation('annotation1');
+        newAnnotations.labels[0].point.x = parseInt(this.axisXPointer);
+        this.highCharts.current.chart.addAnnotation(newAnnotations);
+    }
+
+    handleChangeOfPointerTitle(event) {
+        this.pointerTitle = event.target.value;
+        this.highCharts.current.chart.removeAnnotation('annotation1');
+        newAnnotations.labels[0].text = this.pointerTitle;
+        this.highCharts.current.chart.addAnnotation(newAnnotations);
+    }
+
+    handleCloseModalAddPointer() {
+        this.setState({showModalAddPointer: false});
+    }
 
     render() {
         return (
@@ -340,18 +328,9 @@ export default class Chart extends Component {
                     overlayClassName="Overlay">
                     <h3 className="modalText">Zmień kolory:</h3>
                     <label>
-                        <div>
-                            <input type="color" value={this.state.serie1color} onChange={this.handleChangeOfColors1}/>
-                            <h3 className="modalText">Seria 1</h3>
-                        </div>
-                        <div>
-                            <input type="color" value={this.state.serie2color} onChange={this.handleChangeOfColors2}/>
-                            <h3 className="modalText">Seria 2</h3>
-                        </div>
-                        <div>
-                            <input type="color" value={this.state.serie3color} onChange={this.handleChangeOfColors3}/>
-                            <h3 className="modalText">Seria 3</h3>
-                        </div>
+                        {
+                            this.renderColors()
+                        }
                     </label>
                     <div>
                         <button className="btn btn-success" onClick={this.handleCloseModalChangeColors}>Zamknij
@@ -389,27 +368,41 @@ export default class Chart extends Component {
                     isOpen={this.state.showModalChangeLegend}
                     className="ModalColors"
                     overlayClassName="Overlay">
-                    <label>
-                        <h3 className="modalText">Pierwsza etykieta legendy:</h3>
-                        <input type="text" value={this.state.legend1}
-                               onChange={this.handleChangeOfLegend1}/>
-                    </label>
-                    <label>
-                        <h3 className="modalText">Druga etykieta legendy:</h3>
-                        <input type="text" value={this.state.legend2}
-                               onChange={this.handleChangeOfLegend2}/>
-                    </label>
-                    <label>
-                        <h3 className="modalText">Trzecie etykieta legendy:</h3>
-                        <input type="text" value={this.state.legend3}
-                               onChange={this.handleChangeOfLegend3}/>
-                    </label>
+                    {
+                        this.renderLegend()
+                    }
                     <div>
                         <button className="btn btn-success" onClick={this.handleCloseModalChangeChartLegend}>Zamknij
                         </button>
                     </div>
                 </ReactModal>
                 {/*Koniec modalu do zmiany legendy/}
+
+
+                {/*To modal do tworzenia pointer*/}
+                <ReactModal
+                    isOpen={this.state.showModalAddPointer}
+                    className="ModalEtiquettes"
+                    overlayClassName="Overlay">
+                    <label>
+                        <h3 className="modalText">Współrzędne X:</h3>
+                        <input type="text" value={this.state.axisXPointer} onChange={this.handleChangeOfXPointer}/>
+                    </label>
+                    <label>
+                        <h3 className="modalText">Współrzędne Y:</h3>
+                        <input type="text" value={this.state.axisYPointer} onChange={this.handleChangeOfYPointer}/>
+                    </label>
+                    <label>
+                        <h3 className="modalText">Tekst wskaźnika:</h3>
+                        <input type="text" value={this.state.pointerTitle} onChange={this.handleChangeOfPointerTitle}/>
+                    </label>
+                    <div>
+                        <button className="btn btn-success" onClick={this.handleCloseModalAddPointer}>Zamknij
+                        </button>
+                    </div>
+                </ReactModal>
+                {/*Koniec modalu do zmiany etykiet*/}
+
 
                 {/*Div z chartem*/}
                 <div className="Main-div">
@@ -436,6 +429,7 @@ export default class Chart extends Component {
                     changeChartEtiquettes={this.changeChartEtiquettes}
                     handleOpenModalAddData={this.handleOpenModalAddData}
                     reloadDataSeries={this.reloadDataSeries}
+                    addPointer={this.addPointer}
                 />
                 <Move
                     moveTop={this.moveTop}
@@ -453,5 +447,60 @@ export default class Chart extends Component {
     }
 
 
-}
+    handleOpenModalChangeTitle() {
+        this.setState({showModalChangeTitle: true});
+    }
 
+    handleCloseModalChangeTitle() {
+        this.setState({showModalChangeTitle: false});
+    }
+
+    changeChartName() {
+        this.handleOpenModalChangeTitle();
+    }
+
+    changeChartColors() {
+        this.handleOpenModalChangeColors();
+    }
+
+    changeChartLegend() {
+        this.handleOpenModalChangeChartLegend();
+    }
+
+    changeChartEtiquettes() {
+        this.handleOpenModalChangeEtiquettes();
+    }
+
+    handleOpenModalChangeChartLegend() {
+        this.setState({showModalChangeLegend: true});
+    }
+
+    handleCloseModalChangeChartLegend() {
+        this.setState({showModalChangeLegend: false});
+    }
+
+
+    handleOpenModalChangeEtiquettes() {
+        this.setState({showModalChangeEtiquettes: true});
+    }
+
+    handleCloseModalChangeEtiquettes() {
+        this.setState({showModalChangeEtiquettes: false});
+    }
+
+    handleOpenModalChangeColors() {
+        this.setState({showModalChangeColors: true});
+    }
+
+    handleCloseModalChangeColors() {
+        this.setState({showModalChangeColors: false})
+    }
+
+    handleOpenModalAddData() {
+        this.setState({showModalAddData: true});
+    }
+
+    handleCloseModalAddData() {
+        this.setState({showModalAddData: false});
+    }
+}
