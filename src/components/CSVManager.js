@@ -33,18 +33,18 @@ export default class CSVManager extends React.Component {
 
     render() {
         return (
-            <div className="Main-div">
+            <div className="csv-div">
                 <CSVReader
+                    className="csv-reader"
                     id={"csvka"}
-                    cssClass="csv-input"
-                    label="Elo mordo"
                     onFileLoaded={this.onFileLoaded}
-                    inputStyle={{color: 'red'}}
+                    inputStyle={{color: 'green'}}
                 />
                 <CSVLink data={this.data}
+                         className="csv-link"
                          separator={";"}
                          filename={"my-file.csv"}>
-                    Download me
+                    Download
                 </CSVLink>;
             </div>
         );

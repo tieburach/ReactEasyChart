@@ -43,6 +43,31 @@ html, body {
     height: 100%;
 }
 
+.csv-div{
+    float: right;
+    width: 80%;
+    height: 100px;
+}
+
+.csv-input{
+    float: left;
+    margin-left: 80px;
+    margin-top: 100px;
+}
+
+.csv-link{
+    float: left;
+    margin-left: 80px;
+    margin-top: 100px;
+}
+
+.move-buttons{
+    float: right;
+    margin-top: 50px;
+    width: 80%;
+    height: 100px;
+}
+
 body {
     font-size: 1rem;
 }
@@ -139,6 +164,41 @@ li a:hover {
     background-color: var(--first-color);
     text-align: center;
     border-radius: 50px;
+}
+
+.top-button{
+    float: left;
+    margin-top: 10px;
+    margin-left: 80px;
+    background: url(../resources/up.png) no-repeat;
+    height: 60px;
+    width: 62px;
+}
+
+.bottom-button{
+    float: left;
+    margin-top: 10px;
+    margin-left: 300px;
+    background: url(../resources/down.png) no-repeat;
+    height: 60px;
+    width: 62px;
+
+}
+.left-button {
+    float: left;
+    margin-top: 10px;
+    margin-left: 300px;
+    background: url(../resources/left.png) no-repeat;
+    height: 60px;
+    width: 62px;
+}
+.right-button{
+    float: left;
+    margin-top: 10px;
+    margin-left: 260px;
+    background: url(../resources/right.png) no-repeat;
+    height: 60px;
+    width: 62px;
 }
 
 .Overlay {

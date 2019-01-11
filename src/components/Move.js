@@ -9,18 +9,18 @@ export default class Move extends Component {
 
     render() {
         return (
-            <div>
-                <button id = "topButton" onClick={this.props.moveTop}>
-                    Top
+            <div className="move-buttons">
+                <button className = "top-button" onClick={this.props.moveTop}>
+
                 </button>
-                <button className="moveButtons" onClick={this.props.moveBottom}>
-                    Bottom
+                <button className="bottom-button" onClick={this.props.moveBottom}>
+
                 </button>
-                <button className="moveButtons" onClick={this.props.moveLeft}>
-                    Left
+                <button className="left-button" onClick={this.props.moveLeft}>
+
                 </button>
-                <button className="moveButtons" onClick={this.props.moveRight}>
-                    Right
+                <button className="right-button" onClick={this.props.moveRight}>
+
                 </button>
             </div>
         );
