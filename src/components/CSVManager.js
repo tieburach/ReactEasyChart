@@ -1,7 +1,7 @@
 import React from "react";
 import {CSVLink} from "react-csv";
 import CSVReader from 'react-csv-reader'
-import Data from "../Data";
+import Data from "../containers/Data";
 export default class CSVManager extends React.Component {
 
     constructor(props) {

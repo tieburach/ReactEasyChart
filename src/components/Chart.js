@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
-import Data from "./../Data";
+import Data from "../containers/Data";
 import Menu from "./Menu";
 import ReactModal from 'react-modal';
 import DataPicker from './DataPicker';
@@ -129,7 +129,6 @@ export default class Chart extends Component {
 
 
     moveLeft = () => {
-        console.log(this.state);
         const left = this.state.marginLeft;
         const z = left - 100;
         this.setState({marginLeft: z});

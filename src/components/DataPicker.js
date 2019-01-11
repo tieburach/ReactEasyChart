@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDataGrid from "react-data-grid";
-import Data from "../Data";
+import Data from "../containers/Data";
 
-const rows = [
+let rows = [
     {John: 5, Joe: 3, Jane: 2},
     {John: 3, Joe: 4, Jane: -2},
     {John: 4, Joe: 4, Jane: -3},
@@ -10,7 +10,7 @@ const rows = [
     {John: 2, Joe: 5, Jane: 1}
 ];
 
-const columns = [
+let columns = [
     {
         key: "John",
         name: "John",
@@ -26,7 +26,7 @@ const columns = [
         name: "Jane",
         editable: true
     }
-]
+];
 
 
 export default class DataPicker extends React.Component {
@@ -37,6 +37,7 @@ export default class DataPicker extends React.Component {
             rows: rows,
             columns: columns
         };
+
         this.rowGetter = this.rowGetter.bind(this);
         this.handleGridRowsUpdated = this.handleGridRowsUpdated.bind(this);
         this.addNewRow = this.addNewRow.bind(this);
@@ -48,7 +49,6 @@ export default class DataPicker extends React.Component {
     }
 
     handleGridRowsUpdated = ({fromRow, toRow, updated}) => {
-        console.log(Data.dataSeries)
         this.state.rows.slice();
         for (let i = fromRow; i <= toRow; i++) {
             rows[i] = {...rows[i], ...updated};
@@ -63,10 +63,12 @@ export default class DataPicker extends React.Component {
                 const row = this.state.rows[i];
                 table.push(parseInt(row[key]));
             }
-            if (Data.dataSeries[j] != null)
+            if (Data.dataSeries[j] != null) {
                 Data.dataSeries[j].data = table;
-            else
+            }
+            else {
                 Data.dataSeries.push({name: key, data: [], type: Data.dataSeries[0].type})
+            }
         }
         this.props.reloadDataSeries();
     };
@@ -74,27 +76,32 @@ export default class DataPicker extends React.Component {
 
     addNewRow(ev) {
         ev.preventDefault();
-        let rows = this.state.rows;
+        let newRows = this.state.rows.slice();
 
-        rows.push({
-            id: this.state.rows.length,
+        newRows.push({
+            id: this.state.columns.length,
         });
-        this.setState({rows: rows});
+        rows = newRows;
+        this.setState({rows: newRows});
     }
 
     addNewColumn(ev) {
         ev.preventDefault();
-        let columns = this.state.columns;
-
+        let updatedColumns = this.state.columns.slice();
         columns.push({
             key: this.state.columns.length + 1,
+            name: this.state.columns.length + 1,
+            editable: true
+        });
+        updatedColumns.push({
+            key: this.state.columns.length,
             name: "New column",
             editable: true
         });
-
-        this.setState({columns: columns});
+        this.setState({
+            columns: updatedColumns
+        });
     }
-
 
     render() {
         return (<div className="emailRecipientsEditor">
@@ -109,7 +116,7 @@ export default class DataPicker extends React.Component {
                 columns={this.state.columns}
                 rowGetter={this.rowGetter}
                 rowsCount={this.state.rows.length}
-                minHeight={400}
+                minHeight={300}
                 onGridRowsUpdated={this.handleGridRowsUpdated}
             />
 
