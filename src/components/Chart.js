@@ -47,11 +47,6 @@ let colors = [];
 
 let history = [];
 
-for (let i = 0; i < Data.dataSeries.length; i++) {
-    legend.push(Data.dataSeries[i].name);
-    colors.push(Data.dataSeries[i].color);
-}
-
 export default class Chart extends Component {
 
     constructor(props) {
@@ -77,7 +72,7 @@ export default class Chart extends Component {
             type: "bar"
         };
         this.highCharts = React.createRef();
-        this.history = history;
+        this.history = [];
 
         this.onClickPie = this.onClickPie.bind(this);
         this.onClickBarHorizontal = this.onClickBarHorizontal.bind(this);
@@ -114,6 +109,16 @@ export default class Chart extends Component {
         this.handleCloseModalAddPointer = this.handleCloseModalAddPointer.bind(this);
         this.handleChangeOfPointerTitle = this.handleChangeOfPointerTitle.bind(this);
         this.undoAction = this.undoAction.bind(this);
+    }
+
+    componentDidMount(){
+        for (let i = 0; i < Data.dataSeries.length; i++) {
+            legend.push(Data.dataSeries[i].name);
+            colors.push(Data.dataSeries[i].color);
+        }
+        this.setState({legend: legend});
+        this.setState({colors: colors});
+        this.history.push(this.state);
     }
 
     reloadDataSeries() {
@@ -245,7 +250,6 @@ export default class Chart extends Component {
     handleChangeOfLegend = (i, event) => {
         Data.dataSeries[i].name = event.target.value;
         legend[i] = event.target.value;
-        this.history.push(this.state);
         this.setState({
             legend: legend
         });
@@ -466,8 +470,8 @@ export default class Chart extends Component {
     }
 
     undoAction() {
-        let state = history[history.length - 1];
-        history.pop();
+        let state = this.history[this.history.length - 1];
+        this.history.pop();
         if (this.state != null) {
             this.setState(state);
             this.highCharts.current.chart.update({chart: {style: {'left': this.state.marginLeft}}});
@@ -511,11 +515,14 @@ export default class Chart extends Component {
     handleOpenModalChangeChartLegend() {
         this.history.push(this.state);
         this.setState({showModalChangeLegend: true});
+        console.log(this.history);
     }
 
     handleCloseModalChangeChartLegend() {
+        console.log(this.history);
         this.history.push(this.state);
         this.setState({showModalChangeLegend: false});
+        console.log(this.history);
     }
 
 

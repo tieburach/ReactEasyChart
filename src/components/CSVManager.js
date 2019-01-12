@@ -12,7 +12,6 @@ export default class CSVManager extends React.Component {
     onFileLoaded = (data) => {
 
         this.setState(this.data = data);
-        console.log(this.data.length);
         for (let i in this.data) {
             let series = [];
             for (let j in this.data[i]) {
@@ -26,7 +25,6 @@ export default class CSVManager extends React.Component {
                 type: "column",
             },))
         }
-        console.log(Data.dataSeries);
         this.props.reloadDataSeries();
     };
 
