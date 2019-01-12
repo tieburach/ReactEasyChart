@@ -220,3 +220,13 @@ li a:hover {
     max-width: 20px;
 }
 
+.undoButton{
+    left: 0%;
+    top: 0%;
+    position: absolute;
+    background: url(../resources/undo.png) no-repeat;
+    height: 87px;
+    width: 91px;
+    border: 0;
+}
+

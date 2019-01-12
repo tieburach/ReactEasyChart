@@ -7,6 +7,7 @@ import ReactModal from 'react-modal';
 import DataPicker from './DataPicker';
 import Move from "./Move";
 import CSVManager from "./CSVManager";
+
 require("highcharts/modules/annotations")(Highcharts);
 
 const options = {
@@ -44,6 +45,8 @@ const newAnnotations = {
 let legend = [];
 let colors = [];
 
+let history = [];
+
 for (let i = 0; i < Data.dataSeries.length; i++) {
     legend.push(Data.dataSeries[i].name);
     colors.push(Data.dataSeries[i].color);
@@ -61,20 +64,20 @@ export default class Chart extends Component {
             showModalChangeEtiquettes: false,
             showModalAddPointer: false,
             showModalAddData: false,
-            marginTop: 100,
-            marginLeft: 100,
+            marginTop: 0,
+            marginLeft: 0,
             legend: legend,
-            colors: colors
+            colors: colors,
+            title: "Wykres",
+            axisXEtiquette : "Value",
+            axisYEtiquette : "Value",
+            axisXPointer: 100,
+            axisYPointer: 100,
+            pointerTitle : "Wskaznik",
+            type: "bar"
         };
-
-
-        this.title = 'Wykres';
-        this.axisXEtiquette = 'Value';
-        this.axisYEtiquette = 'Value';
-        this.axisXPointer = 100;
-        this.axisYPointer = 100;
-        this.pointerTitle = "Wskaznik";
         this.highCharts = React.createRef();
+        this.history = history;
 
         this.onClickPie = this.onClickPie.bind(this);
         this.onClickBarHorizontal = this.onClickBarHorizontal.bind(this);
@@ -110,6 +113,7 @@ export default class Chart extends Component {
         this.handleChangeOfXPointer = this.handleChangeOfXPointer.bind(this);
         this.handleCloseModalAddPointer = this.handleCloseModalAddPointer.bind(this);
         this.handleChangeOfPointerTitle = this.handleChangeOfPointerTitle.bind(this);
+        this.undoAction = this.undoAction.bind(this);
     }
 
     reloadDataSeries() {
@@ -122,6 +126,7 @@ export default class Chart extends Component {
     moveTop = () => {
         const top = this.state.marginTop;
         const y = top - 100;
+        this.history.push(this.state);
         this.setState({marginTop: y});
         this.highCharts.current.chart.update({chart: {style: {'position': 'absolute'}}});
         this.highCharts.current.chart.update({chart: {style: {'top': this.state.marginTop}}});
@@ -131,6 +136,7 @@ export default class Chart extends Component {
     moveLeft = () => {
         const left = this.state.marginLeft;
         const z = left - 100;
+        this.history.push(this.state);
         this.setState({marginLeft: z});
         this.highCharts.current.chart.update({chart: {style: {'position': 'absolute'}}});
         this.highCharts.current.chart.update({chart: {style: {'left': this.state.marginLeft}}});
@@ -139,6 +145,7 @@ export default class Chart extends Component {
     moveBottom = () => {
         const top = this.state.marginTop;
         const y = top + 100;
+        this.history.push(this.state);
         this.setState({
             marginTop: y
         });
@@ -149,27 +156,33 @@ export default class Chart extends Component {
     moveRight = () => {
         const left = this.state.marginLeft;
         const z = left + 100;
+        this.history.push(this.state);
         this.setState({marginLeft: z});
         this.highCharts.current.chart.update({chart: {style: {'position': 'absolute'}}});
         this.highCharts.current.chart.update({chart: {style: {'left': this.state.marginLeft}}});
     };
 
     handleChangeOfTitle(event) {
-        this.title = event.target.value;
-        this.highCharts.current.chart.setTitle({text: this.title});
+        this.history.push(this.state);
+        this.setState({title: event.target.value});
+        this.highCharts.current.chart.setTitle({text: event.target.value});
     }
 
     handleChangeOfAxisXEtiquette(event) {
-        this.axisXEtiquette = event.target.value;
-        this.highCharts.current.chart.update({xAxis: {title: {text: this.axisXEtiquette}}});
+        this.history.push(this.state);
+        this.setState({axisXEtiquette: event.target.value});
+        this.highCharts.current.chart.update({xAxis: {title: {text: event.target.value}}});
     }
 
     handleChangeOfAxisYEtiquette(event) {
-        this.axisYEtiquette = event.target.value;
-        this.highCharts.current.chart.update({yAxis: {title: {text: this.axisYEtiquette}}});
+        this.history.push(this.state);
+        this.setState({axisYEtiquette: event.target.value});
+        this.highCharts.current.chart.update({yAxis: {title: {text: event.target.value}}});
     }
 
     onClickLine() {
+        this.history.push(this.state);
+        this.setState({type: "line"});
         for (let i = 0; i < Data.dataSeries.length; i++) {
             this.highCharts.current.chart.series[i].update({type: "line"});
             Data.dataSeries[i].type = "line";
@@ -185,6 +198,8 @@ export default class Chart extends Component {
     };
 
     onClickPie() {
+        this.history.push(this.state);
+        this.setState({type: "pie"});
         for (let i = 0; i < Data.dataSeries.length; i++) {
             this.highCharts.current.chart.series[i].update({type: "pie"});
             Data.dataSeries[i].type = "pie";
@@ -192,6 +207,8 @@ export default class Chart extends Component {
     };
 
     onClickPoint() {
+        this.history.push(this.state);
+        this.setState({type: "scatter"});
         for (let i = 0; i < Data.dataSeries.length; i++) {
             this.highCharts.current.chart.series[i].update({type: "scatter"});
             Data.dataSeries[i].type = "scatter";
@@ -199,6 +216,8 @@ export default class Chart extends Component {
     };
 
     onClickBarVertical() {
+        this.history.push(this.state);
+        this.setState({type: "bar"});
         this.highCharts.current.chart.update({plotOptions: {series: {stacking: undefined}}});
         for (let i = 0; i < Data.dataSeries.length; i++) {
             this.highCharts.current.chart.series[i].update({type: "bar"});
@@ -216,6 +235,7 @@ export default class Chart extends Component {
     handleChangeOfColors = (i, event) => {
         Data.dataSeries[i].color = event.target.value;
         colors[i] = event.target.value;
+        this.history.push(this.state);
         this.setState({
             colors: colors
         });
@@ -225,6 +245,7 @@ export default class Chart extends Component {
     handleChangeOfLegend = (i, event) => {
         Data.dataSeries[i].name = event.target.value;
         legend[i] = event.target.value;
+        this.history.push(this.state);
         this.setState({
             legend: legend
         });
@@ -252,33 +273,36 @@ export default class Chart extends Component {
     };
 
     addPointer = () => {
+        this.history.push(this.state);
         this.setState({showModalAddPointer: true});
         this.highCharts.current.chart.addAnnotation(newAnnotations);
     };
 
     handleChangeOfYPointer(event) {
-        this.axisYPointer = event.target.value;
+        this.setState({axisYPointer : event.target.value});
         this.highCharts.current.chart.removeAnnotation('annotation1');
-        newAnnotations.labels[0].point.y = parseInt(this.axisYPointer);
+        newAnnotations.labels[0].point.y = parseInt(event.target.value);
         this.highCharts.current.chart.addAnnotation(newAnnotations);
 
     }
 
     handleChangeOfXPointer(event) {
-        this.axisXPointer = event.target.value;
+        this.setState({axisXPointer: event.target.value});
         this.highCharts.current.chart.removeAnnotation('annotation1');
-        newAnnotations.labels[0].point.x = parseInt(this.axisXPointer);
+        newAnnotations.labels[0].point.x = parseInt(event.target.value);
         this.highCharts.current.chart.addAnnotation(newAnnotations);
     }
 
     handleChangeOfPointerTitle(event) {
-        this.pointerTitle = event.target.value;
+        this.history.push(this.state);
+        this.setState({pointerTitle: event.target.value});
         this.highCharts.current.chart.removeAnnotation('annotation1');
-        newAnnotations.labels[0].text = this.pointerTitle;
+        newAnnotations.labels[0].text = this.state.pointerTitle;
         this.highCharts.current.chart.addAnnotation(newAnnotations);
     }
 
     handleCloseModalAddPointer() {
+        this.history.push(this.state);
         this.setState({showModalAddPointer: false});
     }
 
@@ -436,21 +460,35 @@ export default class Chart extends Component {
                     moveBottom={this.moveBottom}
                     moveRight={this.moveRight}
                 />
-                {/*<CSVManager*/}
-                    {/*reloadDataSeries={this.reloadDataSeries}*/}
-                {/*/>*/}
-
-                {/*Koniec diva ze sticker*/}
+                <button className="undoButton" onClick={this.undoAction}/>
             </div>
         );
     }
 
+    undoAction() {
+        let state = history[history.length - 1];
+        history.pop();
+        if (this.state != null) {
+            this.setState(state);
+            this.highCharts.current.chart.update({chart: {style: {'left': this.state.marginLeft}}});
+            this.highCharts.current.chart.update({chart: {style: {'top': this.state.marginTop}}});
+            this.highCharts.current.chart.setTitle({text: this.state.title});
+            for (let i = 0; i < Data.dataSeries.length; i++) {
+                this.highCharts.current.chart.series[i].update({type: this.state.type});
+                this.highCharts.current.chart.series[i].update({color: this.state.colors[i]});
+                this.highCharts.current.chart.series[i].update({name: this.state.legend[i]});
+            }
+        }
+    }
+
 
     handleOpenModalChangeTitle() {
+        this.history.push(this.state);
         this.setState({showModalChangeTitle: true});
     }
 
     handleCloseModalChangeTitle() {
+        this.history.push(this.state);
         this.setState({showModalChangeTitle: false});
     }
 
@@ -471,35 +509,43 @@ export default class Chart extends Component {
     }
 
     handleOpenModalChangeChartLegend() {
+        this.history.push(this.state);
         this.setState({showModalChangeLegend: true});
     }
 
     handleCloseModalChangeChartLegend() {
+        this.history.push(this.state);
         this.setState({showModalChangeLegend: false});
     }
 
 
     handleOpenModalChangeEtiquettes() {
+        this.history.push(this.state);
         this.setState({showModalChangeEtiquettes: true});
     }
 
     handleCloseModalChangeEtiquettes() {
+        this.history.push(this.state);
         this.setState({showModalChangeEtiquettes: false});
     }
 
     handleOpenModalChangeColors() {
+        this.history.push(this.state);
         this.setState({showModalChangeColors: true});
     }
 
     handleCloseModalChangeColors() {
+        this.history.push(this.state);
         this.setState({showModalChangeColors: false})
     }
 
     handleOpenModalAddData() {
+        this.history.push(this.state);
         this.setState({showModalAddData: true});
     }
 
     handleCloseModalAddData() {
+        this.history.push(this.state);
         this.setState({showModalAddData: false});
     }
 }
