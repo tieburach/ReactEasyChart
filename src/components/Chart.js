@@ -14,7 +14,7 @@ const options = {
         text: "Wykres"
     },
     chart: {
-        height: 500,
+        height: 450,
         width: 1200
     },
     xAxis: {
@@ -436,9 +436,9 @@ export default class Chart extends Component {
                     moveBottom={this.moveBottom}
                     moveRight={this.moveRight}
                 />
-                <CSVManager
-                    reloadDataSeries={this.reloadDataSeries}
-                />
+                {/*<CSVManager*/}
+                    {/*reloadDataSeries={this.reloadDataSeries}*/}
+                {/*/>*/}
 
                 {/*Koniec diva ze sticker*/}
             </div>

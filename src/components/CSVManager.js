@@ -1,7 +1,7 @@
 import React from "react";
-import {CSVLink} from "react-csv";
 import CSVReader from 'react-csv-reader'
 import Data from "../containers/Data";
+
 export default class CSVManager extends React.Component {
 
     constructor(props) {
@@ -9,43 +9,37 @@ export default class CSVManager extends React.Component {
         this.data = [];
     };
 
-    onFileLoaded= (data) => {
-        let first =[];
-        let second =[];
-        let third=[];
+    onFileLoaded = (data) => {
 
         this.setState(this.data = data);
-        for(let i in this.data){
-            /*
-            for(let j in this.data) {
-                console.log("I" + i + "J" + j + " " + parseInt("" + this.data[i][j]));
-            }*/
-            first[i]=parseInt("" + this.data[i][0]);
-            second[i]=parseInt("" + this.data[i][1]);
-            third[i]=parseInt(""+ this.data[i][2]);
+        console.log(this.data.length);
+        for (let i in this.data) {
+            let series = [];
+            for (let j in this.data[i]) {
+                series.push(parseInt("" + this.data[i][j]));
+            }
+            if (Data.dataSeries[i] != null)
+                Data.dataSeries[i].data = series;
+            else (Data.dataSeries.push({
+                name: parseInt(i)+1,
+                data: series,
+                type: "column",
+            },))
         }
-
-        Data.dataSeries[0].data = first;
-        Data.dataSeries[1].data = second;
-        Data.dataSeries[2].data = third;
+        console.log(Data.dataSeries);
         this.props.reloadDataSeries();
     };
 
+
     render() {
         return (
-            <div className="csv-div">
+            <div className="csvUpload">
                 <CSVReader
-                    className="csv-reader"
+                    className="btn-block btn-success margins csvUploadButton"
                     id={"csvka"}
                     onFileLoaded={this.onFileLoaded}
-                    inputStyle={{color: 'green'}}
+                    inputStyle={{color: "var(--third-color)"}}
                 />
-                <CSVLink data={this.data}
-                         className="csv-link"
-                         separator={";"}
-                         filename={"my-file.csv"}>
-                    Download
-                </CSVLink>;
             </div>
         );
     }

@@ -43,31 +43,6 @@ html, body {
     height: 100%;
 }
 
-.csv-div{
-    float: right;
-    width: 80%;
-    height: 100px;
-}
-
-.csv-input{
-    float: left;
-    margin-left: 80px;
-    margin-top: 100px;
-}
-
-.csv-link{
-    float: left;
-    margin-left: 80px;
-    margin-top: 100px;
-}
-
-.move-buttons{
-    float: right;
-    margin-top: 50px;
-    width: 80%;
-    height: 100px;
-}
-
 body {
     font-size: 1rem;
 }
@@ -166,36 +141,44 @@ li a:hover {
     border-radius: 50px;
 }
 
+.move-buttons{
+    left:42%;
+    top:75%;
+    position:absolute;
+    width: 40%;
+    height: 133px;
+}
+
 .top-button{
-    float: left;
-    margin-top: 10px;
-    margin-left: 80px;
+    left: 40%;
+    top: 10%;
+    position: absolute;
     background: url(../resources/up.png) no-repeat;
     height: 60px;
     width: 62px;
 }
 
 .bottom-button{
-    float: left;
-    margin-top: 10px;
-    margin-left: 300px;
+    left: 40%;
+    top: 90%;
+    position: absolute;
     background: url(../resources/down.png) no-repeat;
     height: 60px;
     width: 62px;
 
 }
 .left-button {
-    float: left;
-    margin-top: 10px;
-    margin-left: 300px;
+    left: 20%;
+    top: 50%;
+    position: absolute;
     background: url(../resources/left.png) no-repeat;
     height: 60px;
     width: 62px;
 }
 .right-button{
-    float: left;
-    margin-top: 10px;
-    margin-left: 260px;
+    left: 60%;
+    top: 50%;
+    position: absolute;
     background: url(../resources/right.png) no-repeat;
     height: 60px;
     width: 62px;
@@ -222,4 +205,18 @@ li a:hover {
     margin-right: 10rem;
 }
 
+.csvDownload{
+    top: 10%;
+    height: 30px;
+    text-align: center;
+}
+
+.csvUpload {
+    margin-left: 16px;
+    font-size: 13px;
+}
+.csv-reader-input{
+    width: 20px;
+    max-width: 20px;
+}
 

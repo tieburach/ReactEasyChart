@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
+import CSVManager from "./CSVManager";
+import CSVDownload from "./CSVDownload";
 
 export default class Menu extends Component {
-    
+
     render() {
         return (
             <div className="App-menu">
@@ -12,13 +14,12 @@ export default class Menu extends Component {
                                 <span>Dane</span>
                             </h4>
                             <li className="nav-item">
-                                <button className="btn-block btn-success  margins"
-                                        onClick={this.props.onClickChangeData}>Załaduj
-                                </button>
+                                <CSVManager reloadDataSeries={this.props.reloadDataSeries}
+                                />
                             </li>
                             <li className="nav-item">
-                                <button className="btn-block btn-success  margins">Zapisz</button>
-                            </li>
+                                <CSVDownload />
+                             </li>
 
                             <h4 className="align-items-center mt-2">
                                 <span>Typ wykresu</span>
@@ -52,7 +53,8 @@ export default class Menu extends Component {
                                 <span>Operacje</span>
                             </h4>
                             <li className="nav-item">
-                                <button className="btn-block btn-success  margins" onClick={this.props.handleOpenModalAddData}>Dodaj dane
+                                <button className="btn-block btn-success  margins"
+                                        onClick={this.props.handleOpenModalAddData}>Dodaj dane
                                 </button>
                             </li>
                             <li className="nav-item">
@@ -73,7 +75,7 @@ export default class Menu extends Component {
                             <li className="nav-item">
                                 <button className="btn-block btn-success  margins"
                                         onClick={this.props.changeChartLegend}
-                                        >Zmień legendę
+                                >Zmień legendę
                                 </button>
                             </li>
                             <li className="nav-item">
