@@ -15,7 +15,7 @@ const options = {
     },
     chart: {
         height: 450,
-        width: 1200
+        width: 1150
     },
     xAxis: {
         title: {
@@ -462,6 +462,7 @@ export default class Chart extends Component {
                     moveRight={this.moveRight}
                 />
                 <button className="undoButton" onClick={this.undoAction}/>
+                <a className="helpButton" href="http://volt.iem.pw.edu.pl/~kinaszw/" target="_blank"/>
             </div>
         );
     }
@@ -549,5 +550,9 @@ export default class Chart extends Component {
     handleCloseModalAddData() {
         this.history.push(this.state);
         this.setState({showModalAddData: false});
+    }
+
+    openHelp() {
+
     }
 }

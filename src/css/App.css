@@ -234,3 +234,14 @@ li a:hover {
     border: 0;
 }
 
+
+.helpButton{
+    left: 96%;
+    top: 13.8%;
+    position: absolute;
+    background: url(../resources/help.png) no-repeat;
+    height: 50px;
+    width: 51px;
+    border: 0;
+}
+
