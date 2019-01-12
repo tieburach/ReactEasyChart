@@ -151,6 +151,7 @@ li a:hover {
 
 .top-button{
     left: 40%;
+    border: 0;
     top: 10%;
     position: absolute;
     background: url(../resources/up.png) no-repeat;
@@ -160,6 +161,7 @@ li a:hover {
 
 .bottom-button{
     left: 40%;
+    border: 0;
     top: 90%;
     position: absolute;
     background: url(../resources/down.png) no-repeat;
@@ -170,6 +172,7 @@ li a:hover {
 .left-button {
     left: 20%;
     top: 50%;
+    border: 0;
     position: absolute;
     background: url(../resources/left.png) no-repeat;
     height: 60px;
@@ -178,6 +181,7 @@ li a:hover {
 .right-button{
     left: 60%;
     top: 50%;
+    border: 0;
     position: absolute;
     background: url(../resources/right.png) no-repeat;
     height: 60px;
@@ -221,12 +225,12 @@ li a:hover {
 }
 
 .undoButton{
-    left: 0%;
-    top: 0%;
+    left: 15%;
+    top: 11%;
     position: absolute;
     background: url(../resources/undo.png) no-repeat;
-    height: 87px;
-    width: 91px;
+    height: 68px;
+    width: 75px;
     border: 0;
 }
 
