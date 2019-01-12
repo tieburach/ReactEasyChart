@@ -6,7 +6,6 @@ import Menu from "./Menu";
 import ReactModal from 'react-modal';
 import DataPicker from './DataPicker';
 import Move from "./Move";
-import CSVManager from "./CSVManager";
 
 require("highcharts/modules/annotations")(Highcharts);
 
@@ -44,8 +43,6 @@ const newAnnotations = {
 
 let legend = [];
 let colors = [];
-
-let history = [];
 
 export default class Chart extends Component {
 
@@ -103,6 +100,7 @@ export default class Chart extends Component {
         this.reloadDataSeries = this.reloadDataSeries.bind(this);
         this.renderColors = this.renderColors.bind(this);
         this.handleChangeOfColors = this.handleChangeOfColors.bind(this);
+        this.handleChangeOfLegend = this.handleChangeOfLegend.bind(this);
         this.addPointer = this.addPointer.bind(this);
         this.handleChangeOfYPointer = this.handleChangeOfYPointer.bind(this);
         this.handleChangeOfXPointer = this.handleChangeOfXPointer.bind(this);
@@ -270,8 +268,7 @@ export default class Chart extends Component {
         const tableLegend = [];
         for (let i = 0; i < Data.dataSeries.length; i++) {
             tableLegend.push(<label><h3 className="modalText">{i + 1} etykieta legendy:</h3><input type="text"
-                                                                                                   value={this.state.legend[i]}
-                                                                                                   onChange={(e) => this.handleChangeOfLegend(i, e)}/></label>);
+                                                                                                   value={this.state.legend[i]} onChange={(e) => this.handleChangeOfLegend(i, e)}/></label>);
         }
         return tableLegend;
     };
@@ -513,9 +510,7 @@ export default class Chart extends Component {
     }
 
     handleOpenModalChangeChartLegend() {
-        this.history.push(this.state);
         this.setState({showModalChangeLegend: true});
-        console.log(this.history);
     }
 
     handleCloseModalChangeChartLegend() {

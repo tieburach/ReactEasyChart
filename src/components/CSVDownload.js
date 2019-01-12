@@ -14,7 +14,7 @@ export default class CSVDownload extends React.Component {
                 <CSVLink data={this.data}
                          className="btn-block btn-success margins csvDownload"
                          separator={";"}
-                         filename={"my-file.csv"}>
+                         filename={"Raport.csv"}>
                     Zapisz
                 </CSVLink>
             </div>
